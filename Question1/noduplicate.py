@@ -14,6 +14,11 @@ df_no_duplicates.to_excel('no_duplicate_data2.xlsx', index=False)
 
 
 '''
+1. pip install pandas openpyxl sqlalchemy
+2. download vscode, 
+3. download vscode extensions: sqlite, python, sql
+4. create a folder named "Python-SQL" in your documents directory and place this script inside it (or any other location you prefer).
+
 => {PANDAS}:
 Pandas is a powerful open-source data manipulation and analysis library for Python. It provides easy-to-use data structures 
 such as data frames and series, along with a variety of tools for cleaning, exploring, and analyzing structured data. 
