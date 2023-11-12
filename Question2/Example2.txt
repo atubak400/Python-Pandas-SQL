@@ -1,0 +1,10 @@
+Example 2
+Listed Company ABC is an online retailer selling clothes and jewellery. It has 50million rows of sales transactions (i.e. customer orders) in the year 2022. After I remove all the returned orders and their original orders in Example 1, I will obtain a cleansed listing.
+
+Now I need to reconcile all the customer order amounts to the relevant bank receipts. I’ve obtained a detailed breakdown of ABC’s bank statements for the year 2022, which have translated various customer currencies to USD. 
+My questions:
+1.	How shall I match the cleansed sales listing with the breakdown of bank statements?
+2.	How shall I calculate the subtotal of all the customer order amounts (USD) matching bank receipts, and the subtotal of those (USD) not matching bank receipts?
+
+See an example of the breakdown of bank statements: SQL – Example 2 >>> the tab ‘Bank Statements’.
+See an example of ABC’s register of when customers made payments for each order: SQL – Example 2 >>> the tab ‘Order ID to Payment Date’

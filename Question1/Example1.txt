@@ -1,0 +1,3 @@
+Example 1
+Listed Company ABC is an online retailer selling clothes and jewellery. It has 50million rows of sales transactions (i.e. customer orders) in the year 2022. However, as its final customers frequently change their mind, there are lots of returned orders, that is, customers want to change the size or colour of the products, therefore, they cancel the original order, then place a new one. From my perspective, I only want to select a sample from the real orders for testing.
+As such, I want to remove the returned orders and their original orders from the sales listing (see an example of the listing ‘SQL – Example 1’).
