@@ -1,29 +1,36 @@
 import pandas as pd
 
-# Load sales list from the 'Sales' sheet
-sales_df = pd.read_excel('Example2.xlsx', sheet_name='Cleansed Sales Listing')
+# Read the two sheets from the Excel file
+df_sheet1 = pd.read_excel('test.xlsx', sheet_name='Cleansed Sales Listing')
+df_sheet2 = pd.read_excel('test.xlsx', sheet_name='Bank Statements')
 
-# Load bank records from the 'Bank Statements' sheet
-bank_df = pd.read_excel('Example2.xlsx', sheet_name='Bank Statements')
+# Convert date columns to the desired format for the relevant sheet
+df_sheet1['Transaction Date'] = pd.to_datetime(df_sheet1['Transaction Date']).dt.strftime('%-m/%-d/%Y')
+df_sheet1['Revenue Posting Date'] = pd.to_datetime(df_sheet1['Revenue Posting Date']).dt.strftime('%-m/%-d/%Y')
 
-# Merge the DataFrames based on the 'Transaction Date' column
-merged_df = pd.merge(sales_df, bank_df, on='Transaction Date', how='left')
+df_sheet2['Transaction Date'] = pd.to_datetime(df_sheet2['Transaction Date']).dt.strftime('%-m/%-d/%Y')
 
-# Identify matched sales based on the order amount
-matched_sales = merged_df[merged_df['Order Amount (USD)'] == merged_df['Bank Receipt (USD)']]
+# Calculate 'Reporting Currency Amount' only for df_sheet2
+df_sheet2['Reporting Currency Amount'] = df_sheet2['Customer Currency Amount'] * df_sheet2['Ex Rate']
 
-#print("Matched Sales:")
-#print(matched_sales)
+# Merge DataFrames on common columns 'Transaction Date', 'Customer Currency' and 'Customer Currency Amount'
+df_combined = pd.merge(df_sheet1, df_sheet2, on=['Transaction Date', 'Customer Currency', 'Customer Currency Amount'], how='outer')
 
-# To calculate the total money received from matched sales, you can use:
-total_matched_money = matched_sales['Order Amount (USD)'].sum()
-print(f"Total Money Received from Matched Sales: ${total_matched_money:.2f}")
+# Create Excel writer
+with pd.ExcelWriter('test2.xlsx', engine='xlsxwriter') as writer:
+    # Write the combined DataFrame to a single sheet
+    df_combined.to_excel(writer, sheet_name='CombinedSheet', index=False)
 
-# To identify unmatched sales, you can use:
-unmatched_sales = merged_df[merged_df['Bank Receipt (USD)'].isna()]
-print("Unmatched Sales:")
-print(unmatched_sales)
+# Print rows where 'Reporting Currency Amount' is NaN in the merged dataframe
+nan_rows = df_combined[df_combined['Reporting Currency Amount'].isna()]
+print("Rows with NaN in 'Reporting Currency Amount' in df_combined:")
+print(nan_rows)
 
-# To calculate the total money received from unmatched sales, you can use:
-total_unmatched_money = unmatched_sales['Order Amount (USD)'].sum()
-print(f"Total Money Received from Unmatched Sales: ${total_unmatched_money:.2f}")
+
+
+'''
+This Python code reads two Excel sheets ('Cleansed Sales Listing' and 'Bank Statements') with fields such as 'Customer Order ID,'
+'Transaction Date,' 'Revenue Posting Date,' 'Customer Currency,' 'Customer Currency Amount,' 'Ex Rate,' and 'Reporting Currency Amount.'
+It formats date columns, calculates 'Reporting Currency Amount' for 'Bank Statements,' merges the sheets based on common fields 
+'Transaction Date,' 'Customer Currency,' and 'Customer Currency Amount,' and writes the resulting combined dataframe to 'test2.xlsx.
+'''

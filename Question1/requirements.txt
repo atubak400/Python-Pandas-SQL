@@ -1,0 +1,3 @@
+pandas: Run pip install pandas in your terminal or command prompt.
+openpyxl: Run pip install openpyxl (required for Pandas to work with Excel files).
+xlsxwriter: Run pip install xlsxwriter (required for specifying date format when saving to Excel).
