@@ -21,11 +21,6 @@ with pd.ExcelWriter('test2.xlsx', engine='xlsxwriter') as writer:
     # Write the combined DataFrame to a single sheet
     df_combined.to_excel(writer, sheet_name='CombinedSheet', index=False)
 
-# Print rows where 'Reporting Currency Amount' is NaN in the merged dataframe
-nan_rows = df_combined[df_combined['Reporting Currency Amount'].isna()]
-print("Rows with NaN in 'Reporting Currency Amount' in df_combined:")
-print(nan_rows)
-
 
 
 '''
