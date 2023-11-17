@@ -13,19 +13,11 @@ df_sheet2['Transaction Date'] = pd.to_datetime(df_sheet2['Transaction Date']).dt
 # Calculate 'Reporting Currency Amount' only for df_sheet2
 df_sheet2['Reporting Currency Amount'] = df_sheet2['Customer Currency Amount'] * df_sheet2['Ex Rate']
 
-# Merge DataFrames on common columns 'Transaction Date', 'Customer Currency' and 'Customer Currency Amount'
-df_combined = pd.merge(df_sheet1, df_sheet2, on=['Transaction Date', 'Customer Currency', 'Customer Currency Amount'], how='outer')
+# Concatenate DataFrames side by side
+df_combined = pd.concat([df_sheet1, df_sheet2], axis=1)
 
 # Create Excel writer
 with pd.ExcelWriter('test2.xlsx', engine='xlsxwriter') as writer:
     # Write the combined DataFrame to a single sheet
     df_combined.to_excel(writer, sheet_name='CombinedSheet', index=False)
 
-
-
-'''
-This Python code reads two Excel sheets ('Cleansed Sales Listing' and 'Bank Statements') with fields such as 'Customer Order ID,'
-'Transaction Date,' 'Revenue Posting Date,' 'Customer Currency,' 'Customer Currency Amount,' 'Ex Rate,' and 'Reporting Currency Amount.'
-It formats date columns, calculates 'Reporting Currency Amount' for 'Bank Statements,' merges the sheets based on common fields 
-'Transaction Date,' 'Customer Currency,' and 'Customer Currency Amount,' and writes the resulting combined dataframe to 'test2.xlsx.
-'''
